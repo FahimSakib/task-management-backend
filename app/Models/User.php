@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Task::class)->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

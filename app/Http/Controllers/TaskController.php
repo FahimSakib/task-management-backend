@@ -42,9 +42,10 @@ class TaskController extends Controller
 
     public function view($id)
     {
-        $task = Task::with('users')->find($id);
+        $currentUserId = auth()->user()->id;
+        $task = Task::with(['users', 'comments.user'])->find($id);
 
-        return response()->json($task);
+        return response()->json(['task' => $task, 'currentUserId' => $currentUserId]);
     }
 
     public function edit($id)

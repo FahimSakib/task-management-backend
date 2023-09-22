@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TaskController;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -28,4 +29,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/view-task/{id}', [TaskController::class, 'view']);
     Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
     Route::put('/update-task/{id}', [TaskController::class, 'update']);
+    Route::post('/add-comment', [CommentController::class, 'store']);
 });
