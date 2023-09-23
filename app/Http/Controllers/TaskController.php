@@ -11,7 +11,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::with('users')->get();
+        $tasks        = Task::with('users')->paginate(10);
         $loggedUserId = auth()->user()->id;
 
         return response()->json(['tasks' => $tasks, 'loggedUserId' => $loggedUserId]);
