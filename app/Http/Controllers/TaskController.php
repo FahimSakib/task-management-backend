@@ -93,6 +93,17 @@ class TaskController extends Controller
         return response()->json(['success' => false, 'msg' => 'Someting went wrong']);
     }
 
+    public function delete($id)
+    {
+        $result = Task::find($id)->delete();
+
+        if ($result) {
+            return response()->json(['success' => true, 'msg' => 'Task deleted successfully']);
+        }
+
+        return response()->json(['success' => false, 'msg' => 'Someting went wrong']);
+    }
+
     protected function sendNotification($users, $task)
     {
         foreach ($users as $user) {

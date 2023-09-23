@@ -30,4 +30,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/edit-task/{id}', [TaskController::class, 'edit']);
     Route::put('/update-task/{id}', [TaskController::class, 'update']);
     Route::post('/add-comment', [CommentController::class, 'store']);
+    Route::delete('delete-task/{id}', [TaskController::class, 'delete']);
 });
