@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Task;
+use App\Models\User;
+use App\Notifications\sendCommentNotification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -16,11 +18,20 @@ class CommentController extends Controller
             'task_id' => 'required',
         ]);
 
-        $comment = Comment::create($validated);
+        $comment       = Comment::create($validated);
+        $task          = Task::with(['users', 'comments.user'])->find($request->task_id);
+        $currentUserId = auth()->user()->id;
+        $taskCreator   = User::find($task->created_by);
 
-        // return $comment->user;
+        foreach ($task->users as $user) {
+            if ($user->id != $currentUserId) {
+                $user->notify(new sendCommentNotification($comment, $task));
+            }
+        }
 
-        $task = Task::with(['users', 'comments.user'])->find($request->task_id);
+        if (!$task->users->contains($taskCreator) && $taskCreator->id != $currentUserId) {
+            $taskCreator->notify(new sendCommentNotification($comment, $task));
+        }
 
         return response()->json(['success' => true, 'msg' => 'Comment added successfully', 'data' => $task]);
     }
