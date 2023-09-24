@@ -3,6 +3,7 @@
 - Laravel
 - Laravel Sanctum
 - Laravel Notification
+- Database: MySQL
 
 ## Install project
 *Clone project from git*
